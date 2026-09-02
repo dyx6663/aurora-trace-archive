@@ -1,6 +1,6 @@
 AURORA TRACE：证据驱动的本地编程智能体
 
-Git 仓库地址：https://github.com/dyx6663/aurora-trace
+Git 仓库地址：https://github.com/dyx6663/AURORA-TRACE
 
 一、运行方法
 需要 Python 3.10+。进入项目目录后执行：
