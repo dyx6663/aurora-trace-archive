@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AURORA TRACE · 代码任务工作台</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/polish.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"></span><div><b>AURORA</b><span> / TRACE</span><small>本地代码任务工作台</small></div></div>
+    <div class="top-meta"><span class="live-dot"></span> 本地服务 <i></i><span id="clock">--:--:--</span></div>
+  </header>
+  <main>
+    <section class="hero">
+      <div><div class="eyebrow">CODE TASK WORKBENCH <span>·</span> LOCAL RUN</div><h1>让每次代码修改，<br /><em>都有据可查。</em></h1><p>先复现问题，再应用改动，最后用测试确认结果。</p></div>
+      <div class="hero-brief"><div class="hero-brief-head"><span>执行顺序 / RUN ORDER</span><b>未开始</b></div><div class="proof-step"><i>01</i><span>读取项目与测试</span><em>context</em></div><div class="proof-step"><i>02</i><span>应用最小改动</span><em>diff</em></div><div class="proof-step"><i>03</i><span>运行回归测试</span><em>tests</em></div></div>
+    </section>
+    <section class="workspace-grid">
+      <aside class="panel task-panel"><div class="panel-head"><span class="panel-kicker">01 / 项目与任务</span><span class="pill">隔离副本</span></div><label>项目来源 <small>PROJECT</small></label><div class="project-row"><select id="project"><option value="demo">Todo Boundary Demo</option></select><button id="uploadBtn" class="upload-btn">＋ 导入 ZIP</button><input id="projectFile" type="file" accept=".zip" hidden /></div><div id="projectMeta" class="project-meta">Python · 2 个文件 · 内置示例</div><label>任务描述 <small>MISSION</small></label><textarea id="task">修复 Todo 项目的删除边界 Bug，运行回归测试，并给出修改证据。</textarea><div class="mode-row"><span>执行方式</span><select id="mode"><option value="mock">内置演示（无需密钥）</option><option value="live">真实模型（需 API Key）</option></select></div><button id="runBtn" class="run-btn"><span>▶</span> 开始执行 <small>CTRL ↵</small></button><div class="micro-copy"><span>◈</span> 每次运行使用独立副本<br /><span>◈</span> 文件与命令均受边界限制<br /><span>◈</span> 最多执行 12 步</div><div class="contract"><label>验收条件 <small>ACCEPTANCE</small></label><div><span>□</span> 复现基线故障</div><div><span>□</span> 记录最小补丁</div><div><span>□</span> 回归测试通过</div><div><span>□</span> 未越过工作区边界</div></div><div class="architecture"><label>执行路径 <small>CONTROL PATH</small></label><div class="topology"><span>模型决策</span><b>→</b><span>本地工具</span><b>→</b><span>测试验收</span></div></div></aside>
+      <section class="panel evidence-panel"><div class="panel-head"><span class="panel-kicker">02 / 执行记录</span><span id="statePill" class="status-pill idle">待命</span></div><div class="stream-head"><span>事件记录 <small>EVIDENCE LEDGER · <b id="eventCount">0 条</b></small></span><span><button id="exportBtn" class="export-btn" disabled>⇩ 导出记录</button> <span class="trace-line"><i></i> RUN LOG</span></span></div><div id="events" class="events"><div class="empty"><div class="empty-icon">◎</div><b>等待任务</b><span>选择项目并启动，系统会在这里逐条记录动作。</span></div></div></section>
+      <aside class="panel health-panel"><div class="panel-head"><span class="panel-kicker">03 / 验收结果</span><span id="healthIcon" class="health-icon">●</span></div><div class="health-main"><div class="health-ring"><strong id="progress">00</strong><small>%</small></div><div><span class="health-label">验收证据评分 / EVIDENCE SCORE</span><h2 id="healthText">等待执行</h2><p id="healthSub">尚未开始运行</p></div></div><div class="metrics"><div><b id="metricIter">00</b><span>决策步数</span></div><div><b id="metricTools">00</b><span>工具调用</span></div><div><b id="metricScore">00</b><span>证据得分</span></div></div><div class="state-map"><label>执行状态 <small>STATE</small></label><div id="states"><span>理解</span><i></i><span>规划</span><i></i><span>执行</span><i></i><span>验证</span><i></i><span>完成</span></div></div></aside>
+    </section>
+    <section class="lower-grid"><div class="panel diff-panel"><div class="panel-head"><span class="panel-kicker">04 / 最小改动 · DIFF</span><span class="file-name">隔离副本</span></div><pre id="diff"><span class="dim">// 运行后将在这里显示实际改动</span></pre></div><div class="panel verify-panel"><div class="panel-head"><span class="panel-kicker">05 / 回归测试</span><span class="verified" id="verified">● 待验证</span></div><div id="verifyBody" class="verify-body"><div class="terminal-line"><span>›</span> <code>等待测试命令</code></div><div class="terminal-line dim"><span>·</span> 尚未运行测试</div></div></div></section>
+  </main>
+  <footer><span>AURORA TRACE v0.1.0</span><span>本地运行 · 受控执行 · 可导出记录</span><span>面向软件工程任务</span></footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

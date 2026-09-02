@@ -1,0 +1,72 @@
+/* 中文界面收尾：让辅助信息成为可读内容，而不是装饰性英文标签。 */
+.brand small,
+.service-status,
+.eyebrow,
+.toolbar-title small,
+.panel-head small,
+.field-note,
+.safety-note,
+.step-no,
+.score-mini,
+.graph-key,
+.mono,
+.tag,
+.state-pill,
+.verify-badge,
+.replay-step b,
+.replay-step small,
+footer {
+  font-family: "Microsoft YaHei UI", "Segoe UI", system-ui, sans-serif;
+  letter-spacing: 0;
+}
+.brand small,
+.service-status { font-size: 11px; }
+.eyebrow,
+.toolbar-title small,
+.panel-head small { font-size: 11px; line-height: 1.5; }
+.field-note,
+.safety-note,
+.graph-note,
+.empty-small { font-size: 10px; }
+.tag,
+.state-pill,
+.verify-badge,
+.step-no,
+.score-mini,
+.graph-key,
+.mono,
+.replay-step b,
+.replay-step small { font-size: 10px; }
+
+.history-item-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+.history-item-meta small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.history-item-meta time {
+  flex: 0 0 auto;
+  color: #9ab8bc;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* 防止左侧表单越过网格边界并被中间证据流面板覆盖。 */
+.dashboard > *,
+.left-column,
+.center-column,
+.right-column,
+.panel {
+  min-width: 0;
+}
+.control-panel textarea {
+  width: calc(100% - 32px);
+  max-width: calc(100% - 32px);
+}

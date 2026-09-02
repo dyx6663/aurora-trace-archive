@@ -1,0 +1,69 @@
+@media (max-width: 980px) {
+  body { min-width: 0; }
+  .dashboard { grid-template-columns: 290px minmax(360px, 1fr); }
+  .right-column { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+  .hero-orbit { margin-right: 0; }
+  footer { gap: 12px; flex-wrap: wrap; }
+}
+
+@media (max-width: 700px) {
+  main { padding: 25px 16px 35px; }
+  .topbar { padding: 0 16px; }
+  .service-status span, .service-status em { display: none; }
+  .hero { min-height: 0; padding: 12px 0 26px; }
+  .hero-orbit { display: none; }
+  h1 { font-size: clamp(31px, 10vw, 42px); }
+  .hero-copy { font-size: 12px; }
+  .toolbar { display: block; }
+  .toolbar-actions { margin-top: 12px; flex-wrap: wrap; }
+  .sandbox-chip { width: 100%; margin: 0 0 3px; }
+  .dashboard, .right-column, .lower-grid { grid-template-columns: 1fr; }
+  .right-column { grid-column: auto; }
+  .stream-panel { min-height: 0; }
+  .events { height: 460px; }
+  .stream-toolbar { display: block; }
+  .stream-toolbar .mono { display: block; margin-top: 5px; }
+  .state-map { gap: 3px; font-size: 7px; }
+  footer { display: block; line-height: 2; }
+  footer span { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-btn:hover, .primary-small:hover { transform: none; }
+}
+
+/* Chinese-first interface: supporting labels are readable, not decorative noise. */
+.brand small,
+.toolbar-title small,
+.panel-head small,
+label small {
+  font-size: 10px;
+  letter-spacing: .35px;
+}
+
+.brand small {
+  color: #86a1aa;
+}
+
+.panel-head small,
+.toolbar-title small {
+  color: #829ba4;
+}
+
+.state-map,
+.step-no,
+.score-mini,
+.graph-key,
+.mono,
+.sandbox-chip,
+.service-status,
+.live-label,
+.tag,
+.verify-badge {
+  font-size: 10px;
+  letter-spacing: .35px;
+}
+
+.state-map {
+  color: #829ba4;
+}

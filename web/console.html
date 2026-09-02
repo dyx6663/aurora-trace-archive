@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f3f6f5" />
+  <title>AURORA TRACE · 证据工作台</title>
+  <link rel="stylesheet" href="/static/console.css" />
+  <link rel="stylesheet" href="/static/console-responsive.css" />
+  <link rel="stylesheet" href="/static/console-polish.css" />
+  <link rel="stylesheet" href="/static/console-taste.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="返回 AURORA TRACE 首页">
+      <span class="brand-symbol">✦</span>
+      <span><strong>AURORA</strong><b> / TRACE</b><small>证据驱动的本地编程智能体</small></span>
+    </a>
+    <div class="service-status"><i></i><span>本地服务运行中</span><em id="clock">--:--:--</em></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">软件工程任务工作台 <span>·</span> 可回放运行</p>
+        <h1>让每一次代码修复，<br /><span>都留下可验证的证据。</span></h1>
+        <p class="hero-copy">AURORA TRACE 将模型决策、工具动作、文件 Diff 与真实测试结果连接成一条可审计、可回放的执行链。</p>
+      </div>
+      <div class="hero-orbit" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="orbit-core">AT<small>证据链</small></span></div>
+    </section>
+
+    <section class="toolbar panel">
+      <div class="toolbar-title"><span class="section-index">01</span><div><strong>创建一次受控运行</strong><small>从任务输入到验证完成</small></div></div>
+      <div class="toolbar-actions"><span class="sandbox-chip">● 隔离工作区</span><button id="historyBtn" class="ghost-btn">运行历史</button><button id="exportBtn" class="ghost-btn" disabled>导出记录</button><button id="replayBtn" class="ghost-btn" disabled>回放本次运行</button></div>
+    </section>
+
+    <section class="dashboard">
+      <aside class="left-column">
+        <article class="panel control-panel">
+          <div class="panel-head"><span><b>任务输入</b><small>选择项目并描述目标</small></span><span class="step-no">01 / 03</span></div>
+          <label for="project">项目来源</label>
+          <div class="input-row"><select id="project"><option value="demo">内置 Todo 边界示例</option></select><button id="uploadBtn" title="导入 ZIP 项目">＋ ZIP</button><input id="projectFile" type="file" accept=".zip" hidden /></div>
+          <p id="projectMeta" class="field-note">Python · 2 个文件 · python -m unittest</p>
+          <label for="task">任务描述</label>
+          <textarea id="task" rows="4">修复 Todo 项目的删除边界 Bug，先复现基线失败，再应用最小补丁并运行回归测试。</textarea>
+          <label for="taskType">验收策略</label>
+          <select id="taskType" class="wide-select"><option value="auto">自动识别 · 按证据调整</option><option value="repair">Bug 修复 · 需要复现失败</option><option value="feature">功能新增 · 先确认绿色基线</option><option value="refactor">结构重构 · 先确认绿色基线</option><option value="change">一般变更 · 先确认绿色基线</option></select>
+          <label for="mode">运行模式</label>
+          <select id="mode" class="wide-select"><option value="mock">Mock · 离线演示，无需 API Key</option><option value="live">Live · 连接兼容 API 的模型</option></select>
+          <label for="approvalMode">执行授权</label>
+          <select id="approvalMode" class="wide-select"><option value="auto">自动执行 · 适合演示</option><option value="manual">手动审批 · 高风险操作需确认</option></select>
+          <button id="runBtn" class="primary-btn"><span>▶</span> 开始受控运行 <kbd>Ctrl ↵</kbd></button>
+          <button id="cancelBtn" class="cancel-btn" disabled>停止运行</button>
+          <p class="safety-note"><i>✓</i> 每次运行复制到独立工作区<br /><i>✓</i> 路径边界、命令白名单与超时保护<br /><i>✓</i> 模型不能绕过验收门禁宣布完成</p>
+        </article>
+
+        <article class="panel contract-panel collapsed">
+          <div class="panel-head"><span><b>验收契约</b><small class="contract-hint">点击展开，查看完成条件</small></span><span class="contract-head-right"><span id="contractScore" class="score-mini">00 / 100</span><button id="contractToggle" class="icon-btn" type="button" aria-expanded="false">展开</button></span></div>
+          <div id="contract" class="contract-list">
+            <div><i>○</i><span>复现基线故障</span><small>修改前检查</small></div>
+            <div><i>○</i><span>记录最小补丁</span><small>补丁记录</small></div>
+            <div><i>○</i><span>回归测试通过</span><small>回归验证</small></div>
+            <div><i>○</i><span>未越过工作区边界</span><small>边界检查</small></div>
+          </div>
+        </article>
+
+        <article id="approvalPanel" class="panel approval-panel hidden">
+          <div class="panel-head"><span><b>等待操作授权</b><small>高风险操作需要确认</small></span><span class="approval-status">等待中</span></div>
+          <div id="approvalSummary" class="approval-summary"></div>
+          <div class="approval-actions"><button id="approveBtn" class="primary-small">批准执行</button><button id="rejectBtn" class="ghost-btn">拒绝操作</button></div>
+        </article>
+
+      </aside>
+
+      <section class="center-column">
+        <article class="panel stream-panel">
+          <div class="panel-head"><span><b>证据流</b><small>按时间记录决策与结果 · <strong id="eventCount">0 条事件</strong></small></span><span id="statePill" class="state-pill idle">等待</span></div>
+          <div class="stream-toolbar"><span id="runCaption">等待创建运行</span><span id="runIdCaption" class="mono">运行编号 ————</span></div>
+          <div id="events" class="events"><div class="empty-state"><span>✦</span><b>等待任务启动</b><p>系统会按时间顺序记录决策、工具结果和验收证据。</p></div></div>
+        </article>
+        <section class="lower-grid">
+          <article class="panel diff-panel"><div class="panel-head"><span><b>代码变更</b><small>查看 Agent 实际写入的最小补丁</small></span><span id="diffMeta" class="mono">暂无变更</span></div><pre id="diff"><span class="muted">运行后，这里会显示真实的文件变更。</span></pre></article>
+          <article class="panel verify-panel"><div class="panel-head"><span><b>测试验收</b><small>确认修改是否通过真实测试</small></span><span id="verified" class="verify-badge">○ 等待验证</span></div><div id="verifyBody" class="terminal"><p class="muted">运行后，这里会显示测试命令和返回结果。</p></div></article>
+        </section>
+      </section>
+
+      <aside class="right-column">
+        <article class="panel confidence-panel">
+          <div class="panel-head"><span><b>证据置信度</b><small>根据真实运行结果计算</small></span><span class="live-label"><i></i> 实时</span></div>
+          <div class="score-wrap"><div class="score-ring"><strong id="progress">00</strong><small>%</small></div><div><span id="healthText" class="confidence-title">等待验证</span><p id="healthSub">完成运行后显示证据强度</p></div></div>
+          <div class="metric-grid"><div><strong id="metricIter">00</strong><span>决策步骤</span></div><div><strong id="metricTools">00</strong><span>工具调用</span></div><div><strong id="metricFiles">00</strong><span>涉及文件</span></div></div>
+          <div class="state-line"><span>执行阶段</span><b id="phaseLabel">等待</b></div>
+          <div id="stateMap" class="state-map"><span>理解任务</span><i></i><span>制定计划</span><i></i><span>执行操作</span><i></i><span>验证结果</span></div>
+        </article>
+        <article class="panel graph-panel">
+          <div class="panel-head"><span><b>证据图</b><small>展示事件之间的因果关系</small></span><span class="graph-key">决策 → 结果</span></div>
+          <div class="graph"><div><i class="node cyan"></i><span>任务与假设</span></div><b>↓</b><div><i class="node violet"></i><span>工具与变更</span></div><b>↓</b><div><i class="node lime"></i><span>测试与验收门禁</span></div></div>
+          <p class="graph-note">每个事件保存 parent_event_id，可从结果回溯到触发它的决策。</p>
+        </article>
+        <article class="panel history-panel">
+          <div class="panel-head"><span><b>历史运行</b><small>选择记录，查看对应的完整证据链</small></span><button id="refreshHistory" class="icon-btn" title="刷新历史">↻</button></div>
+          <div id="history" class="history-list"><p class="empty-small">尚无已保存的运行记录</p></div>
+        </article>
+      </aside>
+    </section>
+
+    <section id="replayPanel" class="panel replay-panel hidden"><div class="panel-head"><span><b>运行回放</b><small>只读回放，不会重新执行代码</small></span><button id="closeReplay" class="icon-btn">×</button></div><div class="replay-bar"><button id="replayPlay" class="primary-small">▶ 播放事件流</button><span id="replayStatus">从已持久化的事件流重建界面，不会再次执行代码。</span></div><div id="replayTrack" class="replay-track"></div></section>
+  </main>
+  <footer><span>AURORA TRACE · v0.2.0</span><span>本地运行 · 隔离执行 · 可审计 · 可回放</span><span>面向软件工程任务的证据驱动型 Coding Agent 实验平台</span></footer>
+  <script src="/static/console.js"></script>
+</body>
+</html>

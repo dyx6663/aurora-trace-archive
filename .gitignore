@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.runs/
+projects/
+projects.json
+.env
+*.mp4
